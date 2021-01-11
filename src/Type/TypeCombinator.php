@@ -171,7 +171,8 @@ class TypeCombinator
 			}
 			if ($types[$i] instanceof ConstantScalarType) {
 				$type = $types[$i];
-				$scalarTypes[get_class($type)][md5($type->describe(VerbosityLevel::cache()))] = $type;
+				$key = $type instanceof ConstantIntegerType ? $type->getValue() : md5($type->describe(VerbosityLevel::cache()));
+				$scalarTypes[get_class($type)][$key] = $type;
 				unset($types[$i]);
 				continue;
 			}
@@ -254,6 +255,35 @@ class TypeCombinator
 			}
 			if ($classType === ConstantBooleanType::class && count($scalarTypeItems) === 2) {
 				$types[] = new BooleanType();
+				continue;
+			}
+			if ($classType === ConstantIntegerType::class) {
+				/** @var int[] $integers */
+				$integers = array_keys($scalarTypeItems);
+				sort($integers);
+				/** @var ConstantIntegerType[] $loneIntegers */
+				$loneIntegers = [];
+				$rangeStart = null;
+				$rangeEnd = null;
+				for ($i = 0; $i < count($integers); $i++) {
+					if ($i < count($integers) - 1 && $integers[$i] + 1 === $integers[$i + 1]) {
+						if ($rangeStart === null) {
+							$rangeStart = $integers[$i];
+						}
+						$rangeEnd = $integers[$i + 1];
+					} elseif ($rangeStart === null) {
+						$loneIntegers[] = $scalarTypeItems[$integers[$i]];
+					} else {
+						$types[] = IntegerRangeType::fromInterval($rangeStart, $rangeEnd);
+						$rangeStart = null;
+						$rangeEnd = null;
+					}
+				}
+				if (count($loneIntegers) > self::CONSTANT_SCALAR_UNION_THRESHOLD) {
+					$types[] = new IntegerType();
+				} elseif (count($loneIntegers) > 0) {
+					array_push($types, ...$loneIntegers);
+				}
 				continue;
 			}
 			foreach ($scalarTypeItems as $type) {

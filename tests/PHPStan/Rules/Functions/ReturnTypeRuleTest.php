@@ -61,6 +61,10 @@ class ReturnTypeRuleTest extends \PHPStan\Testing\RuleTestCase
 				'Function ReturnTypes\returnNever() should never return but return statement found.',
 				181,
 			],
+			[
+				'Function ReturnTypes\returnRangeBad() should return int<1, 7> but returns int<1, 8>.',
+				203,
+			],
 		]);
 	}
 

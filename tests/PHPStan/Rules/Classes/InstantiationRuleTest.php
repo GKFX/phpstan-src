@@ -193,6 +193,10 @@ class InstantiationRuleTest extends \PHPStan\Testing\RuleTestCase
 					'Class TestInstantiation\ClassExtendingAbstractConstructor constructor invoked with 0 parameters, 1 required.',
 					273,
 				],
+				[
+					'Parameter #2 $y of class TestInstantiation\IntRange constructor expects int<1,7>, int<1, 8> given.',
+					291,
+				],
 			]
 		);
 	}

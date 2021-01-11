@@ -1760,6 +1760,33 @@ class TypeCombinatorTest extends \PHPStan\Testing\TestCase
 				MixedType::class,
 				'mixed=implicit',
 			],
+			[
+				[
+					new ConstantIntegerType(1),
+					new ConstantIntegerType(2),
+					new ConstantIntegerType(3),
+					new ConstantIntegerType(4),
+					new ConstantIntegerType(5),
+					new ConstantIntegerType(6),
+				],
+				IntegerRangeType::class,
+				'int<1,6>',
+			],
+			[
+				[
+					new ConstantIntegerType(1),
+					new ConstantIntegerType(2),
+					new ConstantIntegerType(3),
+					new ConstantIntegerType(5),
+					new ConstantIntegerType(7),
+					new ConstantIntegerType(8),
+					new ConstantIntegerType(9),
+					new ConstantIntegerType(10),
+					new ConstantIntegerType(11),
+				],
+				UnionType::class,
+				'int<1,5>|7|int<8,11>',
+			],
 		];
 	}
 
