@@ -574,7 +574,7 @@ class TypeCombinatorTest extends \PHPStan\Testing\TestCase
 					new ConstantIntegerType(2),
 				],
 				UnionType::class,
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				[

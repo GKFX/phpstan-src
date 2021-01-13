@@ -58,7 +58,7 @@ class ScopeTest extends TestCase
 					new ConstantIntegerType(1),
 					new ConstantStringType('foo'),
 				]),
-				'0|1|\'foo\'',
+				'int<0,1>|\'foo\'',
 			],
 			[
 				new UnionType([

@@ -331,25 +331,25 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				$testScope,
 				'ifVar',
 				TrinaryLogic::createYes(),
-				'1|2|3',
+				'int<1,3>',
 			],
 			[
 				$testScope,
 				'ifNotVar',
 				TrinaryLogic::createMaybe(),
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				$testScope,
 				'ifNestedVar',
 				TrinaryLogic::createYes(),
-				'1|2|3',
+				'int<1,3>',
 			],
 			[
 				$testScope,
 				'ifNotNestedVar',
 				TrinaryLogic::createMaybe(),
-				'1|2|3',
+				'int<1,3>',
 			],
 			[
 				$testScope,
@@ -408,7 +408,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				$testScope,
 				'switchVar',
 				TrinaryLogic::createYes(),
-				'1|2|3|4',
+				'int<1,4>',
 			],
 			[
 				$testScope,
@@ -438,7 +438,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				$testScope,
 				'previousI',
 				TrinaryLogic::createYes(),
-				'0|1',
+				'int<0,1>',
 			],
 			[
 				$testScope,
@@ -517,7 +517,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'union',
 				TrinaryLogic::createYes(),
 				'array(1, 2, 3, \'foo\')',
-				'1|2|3|\'foo\'',
+				'int<1,3>|\'foo\'',
 			],
 			[
 				$testScope,
@@ -708,7 +708,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				$testScope,
 				'maybeDefinedButLaterCertainlyDefined',
 				TrinaryLogic::createYes(),
-				'2|3',
+				'int<2,3>',
 			],
 			[
 				$testScope,
@@ -823,17 +823,17 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 			[
 				$testScope,
 				'incrementInIf',
-				'1|2|3',
+				'int<1,3>',
 			],
 			[
 				$testScope,
 				'anotherIncrementInIf',
-				'2|3',
+				'int<2,3>',
 			],
 			[
 				$testScope,
 				'valueOverwrittenInIf',
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				$testScope,
@@ -843,7 +843,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 			[
 				$testScope,
 				'valueOverwrittenInForLoop',
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				$testScope,
@@ -868,12 +868,12 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 			[
 				$testScope,
 				'anotherIntProperty',
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				$testScope,
 				'anotherStaticIntProperty',
-				'1|2',
+				'int<1,2>',
 			],
 			[
 				$testScope,
@@ -1525,7 +1525,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$castedArrayOrObject',
 			],
 			[
-				'0|1',
+				'int<0,1>',
 				'(int) $bool',
 			],
 			[
@@ -2667,11 +2667,11 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$arrayOfIntegers += $arrayOfIntegers',
 			],
 			[
-				'array(0 => 1, 1 => 1, 2 => 1, 3 => 1|2, 4 => 1|3, ?5 => 2|3, ?6 => 3)',
+				'array(0 => 1, 1 => 1, 2 => 1, 3 => int<1,2>, 4 => 1|3, ?5 => int<2,3>, ?6 => 3)',
 				'$conditionalArray + $unshiftedConditionalArray',
 			],
 			[
-				'array(0 => \'lorem\', 1 => stdClass, 2 => 1, 3 => 1, 4 => 1, ?5 => 2|3, ?6 => 3)',
+				'array(0 => \'lorem\', 1 => stdClass, 2 => 1, 3 => 1, 4 => 1, ?5 => int<2,3>, ?6 => 3)',
 				'$unshiftedConditionalArray + $conditionalArray',
 			],
 			[
@@ -2811,7 +2811,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'count($appendingToArrayInBranches)',
 			],
 			[
-				'3|4|5',
+				'int<3,5>',
 				'count($conditionalArray)',
 			],
 			[
@@ -3027,7 +3027,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$arrToUnshift2',
 			],
 			[
-				'array(0 => \'lorem\', 1 => stdClass, 2 => 1, 3 => 1, 4 => 1, ?5 => 2|3, ?6 => 3)',
+				'array(0 => \'lorem\', 1 => stdClass, 2 => 1, 3 => 1, 4 => 1, ?5 => int<2,3>, ?6 => 3)',
 				'$unshiftedConditionalArray',
 			],
 			[
@@ -3099,7 +3099,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$anotherConditionalString . $conditionalString',
 			],
 			[
-				'6|7|8',
+				'int<6,8>',
 				'count($conditionalArray) + count($array)',
 			],
 			[
@@ -3363,31 +3363,31 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 
 		return [
 			[
-				'0|1|2',
+				'int<0,2>',
 				"'NoKeysArray'",
 			],
 			[
-				'0|1|2',
+				'int<0,2>',
 				"'IntegersAndNoKeysArray'",
 			],
 			[
-				'0|1|\'foo\'',
+				'int<0,1>|\'foo\'',
 				"'StringsAndNoKeysArray'",
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				"'IntegersAsStringsAndNoKeysArray'",
 			],
 			[
-				'1|2',
+				'int<1,2>',
 				"'IntegersAsStringsArray'",
 			],
 			[
-				'1|2',
+				'int<1,2>',
 				"'IntegersArray'",
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				"'IntegersWithFloatsArray'",
 			],
 			[
@@ -3399,15 +3399,15 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				"'StringsWithNullArray'",
 			],
 			[
-				'1|2|string',
+				'int<1,2>|string',
 				"'IntegersWithStringFromMethodArray'",
 			],
 			[
-				'1|2|\'foo\'',
+				'int<1,2>|\'foo\'',
 				"'IntegersAndStringsArray'",
 			],
 			[
-				'0|1',
+				'int<0,1>',
 				"'BooleansArray'",
 			],
 			[
@@ -4744,7 +4744,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 			],
 			[
 				__DIR__ . '/data/foreach/reusing-specified-variable.php',
-				'1|2|3',
+				'int<1,3>',
 				'$business',
 			],
 			[
@@ -4948,7 +4948,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$mappedStrings[0]',
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				'$filteredIntegers[0]',
 			],
 			[
@@ -4956,7 +4956,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$filteredMixed[0]',
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				'$uniquedIntegers[1]',
 			],
 			[
@@ -4984,11 +4984,11 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$reducedToInt',
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				'$reversedIntegers[0]',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_change_key_case($integers)',
 			],
 			[
@@ -5008,11 +5008,11 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'array_combine([\'a\', \'b\', \'c\'], [\'d\', \'e\', \'f\'])',
 			],
 			[
-				PHP_VERSION_ID < 80000 ? 'array<1|2|3, mixed>|false' : 'array<1|2|3, mixed>',
+				PHP_VERSION_ID < 80000 ? 'array<int<1,3>, mixed>|false' : 'array<int<1,3>, mixed>',
 				'array_combine([1, 2, 3], $array)',
 			],
 			[
-				PHP_VERSION_ID < 80000 ? 'array<1|2|3>|false' : 'array<1|2|3>',
+				PHP_VERSION_ID < 80000 ? 'array<int<1,3>>|false' : 'array<int<1,3>>',
 				'array_combine($array, [1, 2, 3])',
 			],
 			[
@@ -5024,43 +5024,43 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'array_combine($stringArray, $stringArray)',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_diff_assoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_diff_key($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_diff_uassoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_diff_ukey($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_diff($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_udiff_assoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_udiff_uassoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_udiff($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_intersect_assoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_intersect_key($integers, [])',
 			],
 			[
@@ -5072,27 +5072,27 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'array_intersect_key(...$generalIntegersInAnotherArray, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_intersect_uassoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_intersect_ukey($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_intersect($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_uintersect_assoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_uintersect_uassoc($integers, [])',
 			],
 			[
-				'array<0|1|2, 1|2|3>',
+				'array<int<0,2>, int<1,3>>',
 				'array_uintersect($integers, [])',
 			],
 			[
@@ -5516,7 +5516,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$slicedOffsetWithKeys',
 			],
 			[
-				'0|1',
+				'int<0,1>',
 				'key($mixedValues)',
 			],
 			[
@@ -5671,11 +5671,11 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$versionCompare2',
 			],
 			[
-				'-1|0|1',
+				'-1|int<0,1>',
 				'$versionCompare3',
 			],
 			[
-				'-1|0|1',
+				'-1|int<0,1>',
 				'$versionCompare4',
 			],
 			[
@@ -7606,62 +7606,62 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 	{
 		return [
 			[
-				'1|2|3',
+				'int<1,3>',
 				'$val',
 				"'begin'",
 			],
 			[
-				'0|1|2',
+				'int<0,2>',
 				'$key',
 				"'begin'",
 			],
 			[
-				'1|2|3|null',
+				'int<1,3>|null',
 				'$val',
 				"'afterLoop'",
 			],
 			[
-				'0|1|2|null',
+				'int<0,2>|null',
 				'$key',
 				"'afterLoop'",
 			],
 			[
-				'1|2|3|null',
+				'int<1,3>|null',
 				'$emptyForeachVal',
 				"'afterLoop'",
 			],
 			[
-				'0|1|2|null',
+				'int<0,2>|null',
 				'$emptyForeachKey',
 				"'afterLoop'",
 			],
 			[
-				'1|2|3',
+				'int<1,3>',
 				'$nullableInt',
 				"'end'",
 			],
 			[
-				'array<int, 1|2|3>&nonEmpty',
+				'array<int, int<1,3>>&nonEmpty',
 				'$integers',
 				"'end'",
 			],
 			[
-				'array<int, 1|2|3>',
+				'array<int, int<1,3>>',
 				'$integers',
 				"'afterLoop'",
 			],
 			[
-				'array<string, 1|2|3>',
+				'array<string, int<1,3>>',
 				'$this->property',
 				"'begin'",
 			],
 			[
-				'array<string, 1|2|3>&nonEmpty',
+				'array<string, int<1,3>>&nonEmpty',
 				'$this->property',
 				"'end'",
 			],
 			[
-				'array<string, 1|2|3>',
+				'array<string, int<1,3>>',
 				'$this->property',
 				"'afterLoop'",
 			],
@@ -8831,7 +8831,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'$incremented',
 			],
 			[
-				'0|1',
+				'int<0,1>',
 				'$setFromZeroToOne',
 			],
 		];
@@ -9216,19 +9216,19 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 	{
 		return [
 			[
-				'2|3',
+				'int<2,3>',
 				'$array[\'b\']',
 			],
 			[
-				'array(\'a\' => 1|2|3, \'b\' => 2|3, ?\'c\' => 4)',
+				'array(\'a\' => int<1,3>, \'b\' => int<2,3>, ?\'c\' => 4)',
 				'$array',
 			],
 			[
-				'array(\'a\' => 1|2|3, \'b\' => 2|3|null, ?\'c\' => 4)',
+				'array(\'a\' => int<1,3>, \'b\' => int<2,3>|null, ?\'c\' => 4)',
 				'$arrayCopy',
 			],
 			[
-				'array(\'a\' => 1|2|3, ?\'c\' => 4)',
+				'array(\'a\' => int<1,3>, ?\'c\' => 4)',
 				'$anotherArrayCopy',
 			],
 			[
@@ -9603,7 +9603,7 @@ class NodeScopeResolverTest extends \PHPStan\Testing\TestCase
 				'array_key_first($anotherLiteralArray)',
 			],
 			[
-				'2|3',
+				'int<2,3>',
 				'array_key_last($anotherLiteralArray)',
 			],
 			[

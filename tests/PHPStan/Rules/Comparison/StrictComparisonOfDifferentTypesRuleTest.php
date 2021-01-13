@@ -75,7 +75,7 @@ class StrictComparisonOfDifferentTypesRuleTest extends \PHPStan\Testing\RuleTest
 					88,
 				],
 				[
-					'Strict comparison using === between 1|2|3 and null will always evaluate to false.',
+					'Strict comparison using === between int<1, 3> and null will always evaluate to false.',
 					98,
 				],
 				[
@@ -273,7 +273,7 @@ class StrictComparisonOfDifferentTypesRuleTest extends \PHPStan\Testing\RuleTest
 					69,
 				],
 				[
-					'Strict comparison using === between 1|2|3 and null will always evaluate to false.',
+					'Strict comparison using === between int<1, 3> and null will always evaluate to false.',
 					98,
 				],
 				[

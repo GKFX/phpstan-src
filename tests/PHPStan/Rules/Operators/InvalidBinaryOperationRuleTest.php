@@ -90,7 +90,7 @@ class InvalidBinaryOperationRuleTest extends \PHPStan\Testing\RuleTestCase
 				91,
 			],
 			[
-				'Binary operation "/" between 5 and 0|1 results in an error.',
+				'Binary operation "/" between 5 and int<0,1> results in an error.',
 				122,
 			],
 			[

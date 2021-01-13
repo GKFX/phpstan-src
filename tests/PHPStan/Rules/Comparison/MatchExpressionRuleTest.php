@@ -24,11 +24,11 @@ class MatchExpressionRuleTest extends RuleTestCase
 
 		$this->analyse([__DIR__ . '/data/match-expr.php'], [
 			[
-				'Match arm comparison between 1|2|3 and \'foo\' is always false.',
+				'Match arm comparison between int<1, 3> and \'foo\' is always false.',
 				14,
 			],
 			[
-				'Match arm comparison between 1|2|3 and 0 is always false.',
+				'Match arm comparison between int<1, 3> and 0 is always false.',
 				19,
 			],
 			[
@@ -72,11 +72,11 @@ class MatchExpressionRuleTest extends RuleTestCase
 				50,
 			],
 			[
-				'Match expression does not handle remaining values: 1|2|3',
+				'Match expression does not handle remaining values: int<1, 3>',
 				55,
 			],
 			[
-				'Match arm comparison between 1|2 and 3 is always false.',
+				'Match arm comparison between int<1, 2> and 3 is always false.',
 				65,
 			],
 			[
